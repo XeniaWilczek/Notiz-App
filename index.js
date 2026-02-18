@@ -14,7 +14,7 @@ function loadNotesFromLocalStorage() {
     storedNotes = loadedNotes;
     console.log(storedNotes);
   }
-  //Jede Notoz soll links angezeigt werden nach dem Laden aus dem Local-Storage
+  //Jede Notiz soll links angezeigt werden nach dem Laden aus dem Local-Storage
   storedNotes.forEach((note) => {
     displayNote(note);
   });
@@ -42,8 +42,8 @@ function saveNote() {
   const textfieldContent = document.getElementById("note-textfield").value;
   //Prüfung, ob Inhalt im input-Feld und im textarea-Feld sind
   if (!(inputContent && textfieldContent)) {
-    //andere Schreibweise: !inputContent || !textfieldContent
-    alert("Zuerst Txtfelder ausfüllen!");
+    //andere Schreibweise: (!inputContent || !textfieldContent)
+    alert("Zuerst Textfelder ausfüllen!");
     //Notiz soll nicht gespeichert werden, wenn obere Bedingungen zutreffen
     return;
   }
@@ -59,7 +59,7 @@ function saveNote() {
       //Wenn Notiz exisitiert, alle Elemente in Anzeige links löschen
       document.getElementById("note-container").innerHTML = "";
       //Texteingabefelder leeren
-      refreshNoteField();
+      refreshTextFields();
       //Wenn Notiz exisitiert, jede gespeicherte Notiz links anzeigen
       storedNotes.forEach(displayNote);
       //Hier aufhören, denn es soll kein neues Objekt erstellt werden
@@ -83,10 +83,9 @@ function saveNote() {
     localStorage.setItem("storedNotes", JSON.stringify(storedNotes));
     console.log(storedNotes);
     //am Ende Textfelder leeren
-    refreshNoteField();
+    refreshTextFields();
   }
 }
-
 //Funktion: Inhalt ausgewählter Note-Card wieder im Eingabefeld anzeigen
 //id als Parameter überreichen (id steht für Notiz-Objekt, note-OBjekt kann nur über id gefunden werden)
 function displaySelectedNote(id) {
@@ -110,7 +109,7 @@ function displaySelectedNote(id) {
 }
 
 //Funktion:  Input- und Textarefeld leern und ausgewählte Notiz nicht mehr anzeigen
-function refreshNoteField() {
+function refreshTextFields() {
   const inputContent = document.getElementById("note-heading");
   //Bei Input-Feld mit value arbeiten (statt mit.innerHTML)
   if (inputContent) {
@@ -155,7 +154,7 @@ function deleteNote(id) {
   //Notiz mit bestimmter id ist nicht im Array gelandet und wird nun löschen
   const noteToBeDeleted = document.getElementById(id);
   noteToBeDeleted.remove();
-  refreshNoteField();
+  refreshTextFields();
 }
 
 function securityCheck(text) {
