@@ -2,6 +2,10 @@
 let storedNotes = [];
 //Globale Variable zu Speichern der id, ohne Wert am Anfang
 let savedId = null;
+//Globale Variable zum Speichern der Hintergrundfarbe
+let backgroundColor = "";
+//Globale Variable zum Speichern des bunten Rahmens
+let border = "";
 
 //Funktionsaufruf beim Laden der Seite: Notiz-Objekte aus Local Storage laden
 loadNotesFromLocalStorage();
@@ -28,7 +32,7 @@ function displayNote(note) {
   //Template-String (title, text und date einfügen)
   //onclick auf "note-card"
   //HTML-Element "note-card" sollte dieselbe id haben wir das Notiz-Objekt, so kann man das HTML-Element später löschen
-  const htmlString = `<div class="note-card" id="${note.id}" onclick="displaySelectedNote(${note.id})">
+  const htmlString = `<div class="note-card ${note.backgroundColor} ${note.border}" id="${note.id}" onclick="displaySelectedNote(${note.id})">
             <h3 class="note-title">${securityCheck(note.title)}</h3>
             <p class="note-text">${securityCheck(note.text)}</p>
             <p class="note-date">${note.date}</p>
@@ -56,6 +60,9 @@ function saveNote() {
       existingNote.title = inputContent;
       existingNote.text = textfieldContent;
       existingNote.date = new Date().toLocaleDateString("de-DE");
+      existingNote.backgroundColor = backgroundColor;
+      existingNote.border = border;
+      localStorage.setItem("storedNotes", JSON.stringify(storedNotes));
       //Wenn Notiz exisitiert, alle Elemente in Anzeige links löschen
       document.getElementById("note-container").innerHTML = "";
       //Texteingabefelder leeren
@@ -70,11 +77,14 @@ function saveNote() {
     //id zufällig vergeben
     const idForNote = Math.random();
     //Definition des Notiz-Objekts
+    console.log();
     let note = {
       id: idForNote,
       title: document.getElementById("note-heading").value,
       text: document.getElementById("note-textfield").value,
       date: new Date().toLocaleDateString("de-DE"),
+      backgroundColor: backgroundColor,
+      border: border,
     };
     //Dann erstelltes Notiz-Objekt anzeigen
     displayNote(note);
@@ -84,6 +94,9 @@ function saveNote() {
     console.log(storedNotes);
     //am Ende Textfelder leeren
     refreshTextFields();
+    //Wert der Hintergrundfarbe zurücksetzen, sonst bekommt jede weitere Notiz dieselbe Farbe
+    backgroundColor = "";
+    border = "";
   }
 }
 //Funktion: Inhalt ausgewählter Note-Card wieder im Eingabefeld anzeigen
@@ -169,4 +182,21 @@ function securityCheck(text) {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
+}
+
+//Funktion zum Hinzufügen der blauen Klasse zum angeklickten Element
+function addBlueColor() {
+  backgroundColor = "blue-background";
+}
+
+function addOrangeColor() {
+  backgroundColor = "orange-background";
+}
+
+function addGreenBorder() {
+  border = "green-border";
+}
+
+function addRedBorder() {
+  border = "red-border";
 }

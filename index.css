@@ -10,7 +10,7 @@
 
 :root {
   font-family: "Poppins", sans-serif;
-  --primary-color: rgb(246, 93, 231);
+  --primary-color: rgb(135, 206, 235);
   background-color: white;
 }
 
@@ -52,12 +52,12 @@
 
 .create-note:hover {
   cursor: pointer;
-  background-color: rgb(248, 134, 237);
+  background-color: rgb(171, 220, 241);
 }
 
 .create-note:active {
   cursor: pointer;
-  background-color: rgb(248, 134, 237);
+  background-color: rgb(171, 220, 241);
 }
 
 .create-note svg {
@@ -79,16 +79,16 @@
 
 .note-card:hover {
   cursor: pointer;
-  background-color: rgb(254, 239, 253);
+  background-color: rgb(171, 220, 241);
   transition: all 0.2s;
 }
 
 .note-card:active {
-  background-color: rgb(254, 239, 253);
+  background-color: rgb(171, 220, 241);
 }
 
 .selected-note-card {
-  background-color: rgb(254, 239, 253);
+  background-color: rgb(171, 220, 241);
 }
 
 .note-title {
@@ -179,9 +179,9 @@ textarea:hover {
 }
 
 .button-container {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
   height: 100%;
   width: 20%;
 }
@@ -198,12 +198,12 @@ textarea:hover {
 
 .right-container-button:hover {
   cursor: pointer;
-  background-color: rgb(248, 134, 237);
+  background-color: rgb(171, 220, 241);
 }
 
 .right-container-button:active {
   cursor: pointer;
-  background-color: rgb(248, 134, 237);
+  background-color: rgb(171, 220, 241);
 }
 
 #save-button svg {
@@ -214,4 +214,24 @@ textarea:hover {
 #delete-button svg {
   height: 40px;
   width: 40px;
+}
+
+.blue-background {
+  background-color: blue;
+}
+
+.orange-background {
+  background-color: orange;
+}
+
+.green-border {
+  border: 2px solid green;
+  color: black;
+  background-color: white;
+}
+
+.red-border {
+  border: 2px solid red;
+  color: black;
+  background-color: white;
 }
