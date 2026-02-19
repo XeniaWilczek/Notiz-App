@@ -91,6 +91,10 @@ function displaySelectedNote(id) {
     document.getElementById("note-heading").value = selectedNote.title;
     document.getElementById("note-textfield").value = selectedNote.text;
   }
+  //EIgenschaften setzen, damit sie angezeigt werden
+  backgroundColor = selectedNote.backgroundColor || "";
+  border = selectedNote.border || "";
+
   //Alle Elemente der Klasse "note-card" finden und jedem Element Klasse "selected-note-card" wegnehmen
   document.querySelectorAll(".selected-note-card").forEach((notSelected) => {
     notSelected.classList.remove("selected-note-card");
