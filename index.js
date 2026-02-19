@@ -1,10 +1,10 @@
 //Array zur Sammlung der Note-Card-Objekte
 let storedNotes = [];
-//Globale Variable zu Speichern der id, ohne Wert am Anfang
+//Globale Variable zu Speichern der id (ohne Anfangswert)
 let savedId = null;
-//Globale Variable zum Speichern der Hintergrundfarbe
+//Globale Variable zum Speichern der Hintergrundfarbe (ohne Anfangswert)
 let backgroundColor = "";
-//Globale Variable zum Speichern des bunten Rahmens
+//Globale Variable zum Speichern des bunten Rahmens (ohne Anfangswert)
 let border = "";
 
 //Funktionsaufruf beim Laden der Seite: Notiz-Objekte aus Local Storage laden
@@ -18,7 +18,7 @@ function loadNotesFromLocalStorage() {
     storedNotes = loadedNotes;
     console.log(storedNotes);
   }
-  //Jede Notiz soll links angezeigt werden nach dem Laden aus dem Local-Storage
+  //Jede Notiz soll links angezeigt werden nach dem Laden aus dem Local Storage
   storedNotes.forEach((note) => {
     displayNote(note);
   });
@@ -29,9 +29,8 @@ function displayNote(note) {
   const sortedNotes = storedNotes.sort(
     (noteA, noteB) => noteB.note - noteA.note,
   );
-  //Template-String (title, text und date einfügen)
-  //onclick auf "note-card"
-  //HTML-Element "note-card" sollte dieselbe id haben wir das Notiz-Objekt, so kann man das HTML-Element später löschen
+  //Notiz.ANzeige mit HTML-String-Methode
+  //Beachten: Template-String für Objekt-Eigenschaften (sind variabel)
   const htmlString = `<div class="note-card ${note.backgroundColor} ${note.border}" id="${note.id}" onclick="displaySelectedNote(${note.id})">
             <h3 class="note-title">${securityCheck(note.title)}</h3>
             <p class="note-text">${securityCheck(note.text)}</p>
@@ -40,20 +39,20 @@ function displayNote(note) {
   document.getElementById("note-container").innerHTML += htmlString;
 }
 
-//Funktion: Notiz speichern im Array storedNotes und Array im Local Storage speichern
+//Funktion: Notiz einfügen in Array storedNotes und Array im Local Storage speichern
 function saveNote() {
   const inputContent = document.getElementById("note-heading").value;
   const textfieldContent = document.getElementById("note-textfield").value;
-  //Prüfung, ob Inhalt im input-Feld und im textarea-Feld sind
+  //Prüfung, ob Inhalte im input-Feld und im textarea-Feld sind
   if (!(inputContent && textfieldContent)) {
-    //andere Schreibweise: (!inputContent || !textfieldContent)
+    //andere Schreibweise: (!inputContent || !textfieldContent) -->alle Fälle inbegriffen
     alert("Zuerst Textfelder ausfüllen!");
-    //Notiz soll nicht gespeichert werden, wenn obere Bedingungen zutreffen
+    //Notiz soll nicht gespeichert werden, wenn obige Bedingungen zutreffen
     return;
   }
   //Überprüfen: Existiert bereits eine id?
   if (savedId) {
-    //Nach bereits exisitierender Notiz mithilfe der id suchen
+    //Nach bereits exisitierender Notiz suchen mithilfe der id
     const existingNote = storedNotes.find((note) => note.id === savedId);
     //Wenn Notiz exisitiert, Inhalt überschreiben
     if (existingNote) {
@@ -63,11 +62,11 @@ function saveNote() {
       existingNote.backgroundColor = backgroundColor;
       existingNote.border = border;
       localStorage.setItem("storedNotes", JSON.stringify(storedNotes));
-      //Wenn Notiz exisitiert, alle Elemente in Anzeige links löschen
+      //Außerdem: Wenn Notiz exisitiert, alle Elemente in Anzeige links löschen
       document.getElementById("note-container").innerHTML = "";
-      //Texteingabefelder leeren
+      //Anschließend Texteingabefelder leeren
       refreshTextFields();
-      //Wenn Notiz exisitiert, jede gespeicherte Notiz links anzeigen
+      //Außerdem: Wenn Notiz exisitiert, jede gespeicherte Notiz links anzeigen
       storedNotes.forEach(displayNote);
       //Hier aufhören, denn es soll kein neues Objekt erstellt werden
       return;
@@ -88,7 +87,7 @@ function saveNote() {
     };
     //Dann erstelltes Notiz-Objekt anzeigen
     displayNote(note);
-    //push(), damit Notiz-Objekt zum Array storedNotes hinzugefügt wird
+    //push(), damit Notiz-Objekt zum Array storedNotes hinzugefügt und gespeichert wird
     storedNotes.push(note);
     localStorage.setItem("storedNotes", JSON.stringify(storedNotes));
     console.log(storedNotes);
@@ -100,7 +99,7 @@ function saveNote() {
   }
 }
 //Funktion: Inhalt ausgewählter Note-Card wieder im Eingabefeld anzeigen
-//id als Parameter überreichen (id steht für Notiz-Objekt, note-OBjekt kann nur über id gefunden werden)
+//id als Parameter überreichen (id steht für Notiz-Objekt, note-Objekt kann nur über id gefunden werden)
 function displaySelectedNote(id) {
   savedId = id;
   const selectedNote = storedNotes.find((note) => note.id === savedId);
@@ -128,8 +127,8 @@ function refreshTextFields() {
   if (inputContent) {
     inputContent.value = "";
   }
+  //Kein Leerzeichen zwischen Anführundzeichen: Placeholder soll angezeigt werden
   const textfieldContent = document.getElementById("note-textfield");
-  //Bei Input-Feld mit value arbeiten (statt mit.innerHTML)
   if (textfieldContent) {
     textfieldContent.value = "";
   }
@@ -143,9 +142,10 @@ function refreshTextFields() {
 
 //Funktion: Notiz aus Array storedNotes löschen und aktualisiertes Array im Local Storage speichern
 function deleteNote(id) {
-  //Zuerst prüfen: input und textarea augefüllt? Wenn nicht, alert()
+  //Zuerst prüfen: input und textarea ausgefüllt? Wenn nicht, alert()
   const inputContent = document.getElementById("note-heading").value;
   const textfieldContent = document.getElementById("note-textfield").value;
+  //Ausführliche if-Abfrage (wie oben)
   if (
     (inputContent && !textfieldContent) ||
     (!inputContent && textfieldContent) ||
@@ -160,23 +160,20 @@ function deleteNote(id) {
     //Es werden Elemente herausgefiltert, die nicht die id des ausgewählten Elements haben
     return note.id !== id;
   });
-  //Neues Array mit gefilterten Notiz-Objekten
+  //Neues Array mit gefilterten Notiz-Objekten abspeichern im Local Storage
   storedNotes = filteredNotes;
-  //Neues Array abspeichern im Local Storage
   localStorage.setItem("storedNotes", JSON.stringify(storedNotes));
-  //Notiz mit bestimmter id ist nicht im Array gelandet und wird nun löschen
+  //Notiz mit bestimmter id ist nicht im Array gelandet und wird gelöscht
   const noteToBeDeleted = document.getElementById(id);
   noteToBeDeleted.remove();
   refreshTextFields();
 }
 
 function securityCheck(text) {
-  //HTML-Element finden und in Variable speichern
+  //HTML-Elemente finden und in Variablen speichern
   const input = document.getElementById("note-heading").value;
-
-  //HTML-Element finden und in Variable speichern
   const textarea = document.getElementById("note-textfield").value;
-  //Korrigierte Ausgabe mit HTML-Entities (als Text angezeigt)
+  //Korrigierte Ausgabe mit HTML-Entities (HTML-Elemente als Text angezeigt)
   return text
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
