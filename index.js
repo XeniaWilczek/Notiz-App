@@ -16,12 +16,10 @@ function loadNotesFromLocalStorage() {
   //Prüfung, ob Notiz-Objekte im Local Storage vorhanden sind
   if (loadedNotes) {
     storedNotes = loadedNotes;
-    console.log(storedNotes);
   }
   //Jede Notiz soll links angezeigt werden nach dem Laden aus dem Local Storage
-  storedNotes.forEach((note) => {
-    displayNote(note);
-  });
+  document.getElementById("note-container").innerHTML = "";
+  storedNotes.forEach(displayNote);
 }
 
 //Funktion: Anzeigen eines Notiz-Objekts links
@@ -31,7 +29,8 @@ function displayNote(note) {
   );
   //Notiz.ANzeige mit HTML-String-Methode
   //Beachten: Template-String für Objekt-Eigenschaften (sind variabel)
-  const htmlString = `<div class="note-card ${note.backgroundColor} ${note.border}" id="${note.id}" onclick="displaySelectedNote(${note.id})">
+  //BackgroundColor und Border müssen Wert haben, damit man beide auswählen kann
+  const htmlString = `<div class="note-card ${note.backgroundColor || ""} ${note.border || ""}" id="${note.id}" onclick="displaySelectedNote(${note.id})">
             <h3 class="note-title">${securityCheck(note.title)}</h3>
             <p class="note-text">${securityCheck(note.text)}</p>
             <p class="note-date">${note.date}</p>
@@ -43,61 +42,46 @@ function displayNote(note) {
 function saveNote() {
   const inputContent = document.getElementById("note-heading").value;
   const textfieldContent = document.getElementById("note-textfield").value;
-  //Prüfung, ob Inhalte im input-Feld und im textarea-Feld sind
-  if (!(inputContent && textfieldContent)) {
-    //andere Schreibweise: (!inputContent || !textfieldContent) -->alle Fälle inbegriffen
+  //Alert, wenn keine Notiz ausgewählt wurde
+  if (!inputContent || !textfieldContent) {
     alert("Zuerst Textfelder ausfüllen!");
-    //Notiz soll nicht gespeichert werden, wenn obige Bedingungen zutreffen
     return;
   }
-  //Überprüfen: Existiert bereits eine id?
-  if (savedId) {
-    //Nach bereits exisitierender Notiz suchen mithilfe der id
+
+  //Prüfung, ob id existiert
+  if (savedId !== null) {
     const existingNote = storedNotes.find((note) => note.id === savedId);
-    //Wenn Notiz exisitiert, Inhalt überschreiben
     if (existingNote) {
       existingNote.title = inputContent;
       existingNote.text = textfieldContent;
       existingNote.date = new Date().toLocaleDateString("de-DE");
       existingNote.backgroundColor = backgroundColor;
       existingNote.border = border;
-      localStorage.setItem("storedNotes", JSON.stringify(storedNotes));
-      //Außerdem: Wenn Notiz exisitiert, alle Elemente in Anzeige links löschen
-      document.getElementById("note-container").innerHTML = "";
-      //Anschließend Texteingabefelder leeren
-      refreshTextFields();
-      //Außerdem: Wenn Notiz exisitiert, jede gespeicherte Notiz links anzeigen
-      storedNotes.forEach(displayNote);
-      //Hier aufhören, denn es soll kein neues Objekt erstellt werden
-      return;
     }
-    //Wenn keine Notiz(id) exisitert, Notiz-Objekt erstellen
   } else {
-    //id zufällig vergeben
-    const idForNote = Math.random();
-    //Definition des Notiz-Objekts
-    console.log();
+    //Neue Notiz erstellen
     let note = {
-      id: idForNote,
-      title: document.getElementById("note-heading").value,
-      text: document.getElementById("note-textfield").value,
+      id: Math.random(),
+      title: inputContent,
+      text: textfieldContent,
       date: new Date().toLocaleDateString("de-DE"),
       backgroundColor: backgroundColor,
       border: border,
     };
-    //Dann erstelltes Notiz-Objekt anzeigen
-    displayNote(note);
-    //push(), damit Notiz-Objekt zum Array storedNotes hinzugefügt und gespeichert wird
     storedNotes.push(note);
-    localStorage.setItem("storedNotes", JSON.stringify(storedNotes));
-    console.log(storedNotes);
-    //am Ende Textfelder leeren
-    refreshTextFields();
-    //Wert der Hintergrundfarbe zurücksetzen, sonst bekommt jede weitere Notiz dieselbe Farbe
-    backgroundColor = "";
-    border = "";
   }
+
+  localStorage.setItem("storedNotes", JSON.stringify(storedNotes));
+  document.getElementById("note-container").innerHTML = "";
+  storedNotes.forEach(displayNote);
+
+  refreshTextFields();
+
+  //Nach dem Speichern leeren
+  backgroundColor = "";
+  border = "";
 }
+
 //Funktion: Inhalt ausgewählter Note-Card wieder im Eingabefeld anzeigen
 //id als Parameter überreichen (id steht für Notiz-Objekt, note-Objekt kann nur über id gefunden werden)
 function displaySelectedNote(id) {
@@ -118,6 +102,7 @@ function displaySelectedNote(id) {
     .getElementById("delete-button")
     //onclick-Attribut verändern: Funktion deleteNote() mit übergebenem Parameter für id soll ausgeführt werden
     .setAttribute("onclick", `deleteNote(${id})`);
+  //Klasse wird verliehen, wenn beide Eigenschaften einen Wert haben
 }
 
 //Funktion:  Input- und Textarefeld leern und ausgewählte Notiz nicht mehr anzeigen

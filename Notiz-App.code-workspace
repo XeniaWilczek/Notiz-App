@@ -1,0 +1,19 @@
+{
+  "folders": [
+	{
+		"path": "."
+	},
+	{
+		"path": "../../Modul 4/Aufgaben LocalStorage"
+	},
+	{
+		"path": "../../Modul 4/Abschlussprojekt"
+	},
+	{
+		"path": "../../Modul 3/Projekt Preisrechner"
+	}
+],
+  "settings": {
+    "liveServer.settings.multiRootWorkspaceName": "Notiz-App"
+  }
+}
