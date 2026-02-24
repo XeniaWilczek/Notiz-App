@@ -1,13 +1,10 @@
 //Array zur Sammlung der Note-Card-Objekte
 let storedNotes = [];
-//Globale Variable zu Speichern der id (ohne Anfangswert)
+//Globale Variablen zum Speichern von id, Hintergrundfarbe und Rahmen
 let savedId = null;
-//Globale Variable zum Speichern der Hintergrundfarbe (ohne Anfangswert)
 let backgroundColor = "";
-//Globale Variable zum Speichern des bunten Rahmens (ohne Anfangswert)
 let border = "";
 
-//Funktionsaufruf beim Laden der Seite: Notiz-Objekte aus Local Storage laden
 loadNotesFromLocalStorage();
 
 //Funktion: Laden der Notiz-Objekte aus Local Storage
@@ -27,10 +24,10 @@ function displayNote(note) {
   const sortedNotes = storedNotes.sort(
     (noteA, noteB) => noteB.note - noteA.note,
   );
-  //Notiz.ANzeige mit HTML-String-Methode
+  //Notiz anzeigen mit HTML-String-Methode
   //Beachten: Template-String für Objekt-Eigenschaften (sind variabel)
-  //BackgroundColor und Border müssen Wert haben, damit man beide auswählen kann
-  const htmlString = `<div class="note-card ${note.backgroundColor || ""} ${note.border || ""}" id="${note.id}" onclick="displaySelectedNote(${note.id})">
+  //BackgroundColor und Border müssen als Klasse angegeben werden (bekommen Wert der CSS-Klasse)
+  const htmlString = `<div class="note-card ${note.backgroundColor} ${note.border}" id="${note.id}" onclick="displaySelectedNote(${note.id})">
             <h3 class="note-title">${securityCheck(note.title)}</h3>
             <p class="note-text">${securityCheck(note.text)}</p>
             <p class="note-date">${note.date}</p>
@@ -48,7 +45,7 @@ function saveNote() {
     return;
   }
 
-  //Prüfung, ob id existiert
+  //Prüfung, ob id existiert -->dann wird zugehöriges Objekt nur aktualisert
   if (savedId !== null) {
     const existingNote = storedNotes.find((note) => note.id === savedId);
     if (existingNote) {
@@ -59,7 +56,7 @@ function saveNote() {
       existingNote.border = border;
     }
   } else {
-    //Neue Notiz erstellen
+    //Neue Notiz erstellen, wenn noch keine id existiert
     let note = {
       id: Math.random(),
       title: inputContent,
@@ -77,7 +74,7 @@ function saveNote() {
 
   refreshTextFields();
 
-  //Nach dem Speichern leeren
+  //Nach dem Speichern leeren (nächste Karte soll nicht dieselbe Farbe haben)
   backgroundColor = "";
   border = "";
 }
@@ -91,7 +88,7 @@ function displaySelectedNote(id) {
     document.getElementById("note-heading").value = selectedNote.title;
     document.getElementById("note-textfield").value = selectedNote.text;
   }
-  //EIgenschaften setzen, damit sie angezeigt werden
+  //Attribute haben nun Wert, der beim angewählten Element erscheint oder sind leer (es darf nicht undefined sein)
   backgroundColor = selectedNote.backgroundColor || "";
   border = selectedNote.border || "";
 
@@ -170,19 +167,39 @@ function securityCheck(text) {
     .replace(/"/g, "&quot;");
 }
 
-//Funktion zum Hinzufügen der blauen Klasse zum angeklickten Element
+//Funktion zum Hinzufügen (beim Anklicken) der bunten CSS-Klasse als Werte der Objekt-Attribute background-color und boder
 function addBlueColor() {
   backgroundColor = "blue-background";
+  if (savedId !== null) {
+    const el = document.getElementById(savedId);
+    el.classList.remove("orange-background");
+    el.classList.add(backgroundColor);
+  }
 }
 
 function addOrangeColor() {
   backgroundColor = "orange-background";
+  if (savedId !== null) {
+    const el = document.getElementById(savedId);
+    el.classList.remove("blue-background");
+    el.classList.add(backgroundColor);
+  }
 }
 
 function addGreenBorder() {
   border = "green-border";
+  if (savedId !== null) {
+    const el = document.getElementById(savedId);
+    el.classList.remove("red-border");
+    el.classList.add(border);
+  }
 }
 
 function addRedBorder() {
   border = "red-border";
+  if (savedId !== null) {
+    const el = document.getElementById(savedId);
+    el.classList.remove("green-border");
+    el.classList.add(border);
+  }
 }

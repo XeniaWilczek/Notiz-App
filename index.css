@@ -219,9 +219,16 @@ textarea:hover {
 .blue-background {
   background-color: blue;
 }
+.blue-background:hover {
+  background-color: rgb(0, 191, 255);
+}
 
 .orange-background {
   background-color: orange;
+}
+
+.orange-background:hover {
+  background-color: rgb(255, 228, 181);
 }
 
 .green-border {
@@ -234,4 +241,9 @@ textarea:hover {
   border: 2px solid red;
   color: black;
   background-color: white;
+}
+
+.red-border:hover,
+.green-border:hover {
+  background-color: lightgrey;
 }
