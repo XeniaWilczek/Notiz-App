@@ -203,3 +203,11 @@ function addRedBorder() {
     el.classList.add(border);
   }
 }
+function addWhiteBackground() {
+  backgroundColor = "white-background";
+  if (savedId !== null) {
+    const el = document.getElementById(savedId);
+    el.classList.remove("blue-background", "orange-background");
+    el.classList.add(backgroundColor);
+  }
+}
