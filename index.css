@@ -234,13 +234,11 @@ textarea:hover {
 .green-border {
   border: 2px solid green;
   color: black;
-  background-color: white;
 }
 
 .red-border {
   border: 2px solid red;
   color: black;
-  background-color: white;
 }
 
 .red-border:hover,
