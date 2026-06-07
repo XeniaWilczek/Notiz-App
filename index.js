@@ -27,7 +27,7 @@ function displayNote(note) {
   const container = document.getElementById("note-container");
 
   const htmlString = `
-    <div class="note-card ${note.backgroundColor} ${note.border}" id="${note.id}" onclick="displaySelectedNote(${note.id})">
+    <div class="note-card ${note.backgroundColor} ${note.border}" id="${note.id}" onclick="displaySelectedNote('${note.id}')">
       <h3 class="note-title">${securityCheck(note.title)}</h3>
       <p class="note-text">${securityCheck(note.text)}</p>
       <p class="note-date">${note.date}</p>
@@ -57,7 +57,7 @@ function saveNote() {
     }
   } else {
     const newNote = {
-      id: Math.random(),
+      id: crypto.randomUUID(), // ← KORREKTUR
       title,
       text,
       date: new Date().toLocaleDateString("de-DE"),
@@ -94,12 +94,15 @@ function displaySelectedNote(id) {
     notSelected.classList.remove("selected-note-card");
   });
   //Ausgewähltem Element Klasse "selected-note-card" geben
-  document.getElementById(id).classList.add("selected-note-card");
+  const el = document.getElementById(id); // ← KORREKTUR
+  if (el) {
+    el.classList.add("selected-note-card");
+  }
   //delete-button über dessen id finden
   document
     .getElementById("delete-button")
     //onclick-Attribut verändern: Funktion deleteNote() mit übergebenem Parameter für id soll ausgeführt werden
-    .setAttribute("onclick", `deleteNote(${id})`);
+    .setAttribute("onclick", `deleteNote('${id}')`);
   //Klasse wird verliehen, wenn beide Eigenschaften einen Wert haben
 }
 
