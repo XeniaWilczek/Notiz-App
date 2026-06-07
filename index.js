@@ -1,86 +1,83 @@
-//Array zur Sammlung der Note-Card-Objekte
 let storedNotes = [];
-//Globale Variablen zum Speichern von id, Hintergrundfarbe und Rahmen
+//Globale Variablen zum Speichern der gespeicherten id, Hintergrundfarbe und Rahmen
 let savedId = null;
 let backgroundColor = "";
 let border = "";
 
 loadNotesFromLocalStorage();
 
-//Funktion: Laden der Notiz-Objekte aus Local Storage
 function loadNotesFromLocalStorage() {
   const loadedNotes = JSON.parse(localStorage.getItem("storedNotes"));
-  //Prüfung, ob Notiz-Objekte im Local Storage vorhanden sind
+
   if (loadedNotes) {
     storedNotes = loadedNotes;
   }
-  //Jede Notiz soll links angezeigt werden nach dem Laden aus dem Local Storage
+  //Jede Notiz soll nach dem Laden aus dem Local Storage links angezeigt werden
   document.getElementById("note-container").innerHTML = "";
   storedNotes.forEach(displayNote);
 }
+function renderNotes() {
+  const container = document.getElementById("note-container");
+  container.innerHTML = "";
 
-//Funktion: Anzeigen eines Notiz-Objekts links
-function displayNote(note) {
-  const sortedNotes = storedNotes.sort(
-    (noteA, noteB) => noteB.note - noteA.note,
-  );
-  //Notiz anzeigen mit HTML-String-Methode
-  //Beachten: Template-String für Objekt-Eigenschaften (sind variabel)
-  //BackgroundColor und Border müssen als Klasse angegeben werden (bekommen Wert der CSS-Klasse)
-  const htmlString = `<div class="note-card ${note.backgroundColor} ${note.border}" id="${note.id}" onclick="displaySelectedNote(${note.id})">
-            <h3 class="note-title">${securityCheck(note.title)}</h3>
-            <p class="note-text">${securityCheck(note.text)}</p>
-            <p class="note-date">${note.date}</p>
-          </div>`;
-  document.getElementById("note-container").innerHTML += htmlString;
+  [...storedNotes].sort((a, b) => b.id - a.id).forEach(displayNote);
 }
 
-//Funktion: Notiz einfügen in Array storedNotes und Array im Local Storage speichern
+function displayNote(note) {
+  const container = document.getElementById("note-container");
+
+  const htmlString = `
+    <div class="note-card ${note.backgroundColor} ${note.border}" id="${note.id}" onclick="displaySelectedNote(${note.id})">
+      <h3 class="note-title">${securityCheck(note.title)}</h3>
+      <p class="note-text">${securityCheck(note.text)}</p>
+      <p class="note-date">${note.date}</p>
+    </div>
+  `;
+
+  container.insertAdjacentHTML("beforeend", htmlString);
+}
+
 function saveNote() {
-  const inputContent = document.getElementById("note-heading").value;
-  const textfieldContent = document.getElementById("note-textfield").value;
-  //Alert, wenn keine Notiz ausgewählt wurde
-  if (!inputContent || !textfieldContent) {
+  const title = document.getElementById("note-heading").value;
+  const text = document.getElementById("note-textfield").value;
+
+  if (!title || !text) {
     alert("Zuerst Textfelder ausfüllen!");
     return;
   }
 
-  //Prüfung, ob id existiert -->dann wird zugehöriges Objekt nur aktualisert
   if (savedId !== null) {
     const existingNote = storedNotes.find((note) => note.id === savedId);
     if (existingNote) {
-      existingNote.title = inputContent;
-      existingNote.text = textfieldContent;
+      existingNote.title = title;
+      existingNote.text = text;
       existingNote.date = new Date().toLocaleDateString("de-DE");
       existingNote.backgroundColor = backgroundColor;
       existingNote.border = border;
     }
   } else {
-    //Neue Notiz erstellen, wenn noch keine id existiert
-    let note = {
-      id: Math.random(),
-      title: inputContent,
-      text: textfieldContent,
+    const newNote = {
+      id: crypto.randomUUID(),
+      title,
+      text,
       date: new Date().toLocaleDateString("de-DE"),
-      backgroundColor: backgroundColor,
-      border: border,
+      backgroundColor,
+      border,
     };
-    storedNotes.push(note);
+    storedNotes.push(newNote);
   }
 
   localStorage.setItem("storedNotes", JSON.stringify(storedNotes));
-  document.getElementById("note-container").innerHTML = "";
-  storedNotes.forEach(displayNote);
+
+  renderNotes();
 
   refreshTextFields();
 
-  //Nach dem Speichern leeren (nächste Karte soll nicht dieselbe Farbe haben)
   backgroundColor = "";
   border = "";
 }
 
 //Funktion: Inhalt ausgewählter Note-Card wieder im Eingabefeld anzeigen
-//id als Parameter überreichen (id steht für Notiz-Objekt, note-Objekt kann nur über id gefunden werden)
 function displaySelectedNote(id) {
   savedId = id;
   const selectedNote = storedNotes.find((note) => note.id === savedId);
@@ -106,10 +103,9 @@ function displaySelectedNote(id) {
   //Klasse wird verliehen, wenn beide Eigenschaften einen Wert haben
 }
 
-//Funktion:  Input- und Textarefeld leern und ausgewählte Notiz nicht mehr anzeigen
 function refreshTextFields() {
   const inputContent = document.getElementById("note-heading");
-  //Bei Input-Feld mit value arbeiten (statt mit.innerHTML)
+
   if (inputContent) {
     inputContent.value = "";
   }
@@ -120,7 +116,7 @@ function refreshTextFields() {
   }
   //Kein Wert soll vorhanden sein, damit saveNote() wieder mit saveId ohne Anfangswert arbeitet
   savedId = null;
-  // Alle Notiz-Objekte mit Klasse "selected-note-card finden
+
   document.querySelectorAll(".selected-note-card").forEach((card) => {
     card.classList.remove("selected-note-card");
   });
@@ -131,14 +127,9 @@ function deleteNote(id) {
   //Zuerst prüfen: input und textarea ausgefüllt? Wenn nicht, alert()
   const inputContent = document.getElementById("note-heading").value;
   const textfieldContent = document.getElementById("note-textfield").value;
-  //Ausführliche if-Abfrage (wie oben)
-  if (
-    (inputContent && !textfieldContent) ||
-    (!inputContent && textfieldContent) ||
-    (!inputContent && !textfieldContent)
-  ) {
+
+  if (!inputContent || !textfieldContent) {
     alert("Zuerst Notiz auswählen!");
-    //Notiz soll nicht gelöscht werden, wenn Bedingungen nicht zutreffen
     return;
   }
   //delete-button hat id des aktuellen Notiz-Objekts bekommen, also kann man mit id arbeiten
@@ -156,10 +147,6 @@ function deleteNote(id) {
 }
 
 function securityCheck(text) {
-  //HTML-Elemente finden und in Variablen speichern
-  const input = document.getElementById("note-heading").value;
-  const textarea = document.getElementById("note-textfield").value;
-  //Korrigierte Ausgabe mit HTML-Entities (HTML-Elemente als Text angezeigt)
   return text
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
@@ -168,20 +155,20 @@ function securityCheck(text) {
 }
 
 //Funktion zum Hinzufügen (beim Anklicken) der bunten CSS-Klasse als Werte der Objekt-Attribute background-color und boder
-function addBlueColor() {
-  backgroundColor = "blue-background";
+function addLeisureColor() {
+  backgroundColor = "leisure-background";
   if (savedId !== null) {
     const el = document.getElementById(savedId);
-    el.classList.remove("orange-background");
+    el.classList.remove("duty-background");
     el.classList.add(backgroundColor);
   }
 }
 
-function addOrangeColor() {
-  backgroundColor = "orange-background";
+function addDutyColor() {
+  backgroundColor = "duty-background";
   if (savedId !== null) {
     const el = document.getElementById(savedId);
-    el.classList.remove("blue-background");
+    el.classList.remove("leisure-background");
     el.classList.add(backgroundColor);
   }
 }
@@ -207,7 +194,7 @@ function addWhiteBackground() {
   backgroundColor = "white-background";
   if (savedId !== null) {
     const el = document.getElementById(savedId);
-    el.classList.remove("blue-background", "orange-background");
+    el.classList.remove("leisure-background", "duty-background");
     el.classList.add(backgroundColor);
   }
 }

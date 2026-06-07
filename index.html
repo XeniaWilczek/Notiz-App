@@ -4,13 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Notiz-App</title>
-
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lobster&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Style+Script&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap"
       rel="stylesheet"
     />
+
     <link rel="stylesheet" href="index.css" />
   </head>
   <body>
@@ -21,13 +21,13 @@
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            strokeWidth="{1.5}"
+            stroke-width="1.5"
             stroke="currentColor"
-            className="size-6"
+            class="size-6"
           >
             <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
+              stroke-linecap="round"
+              stroke-linejoin="round"
               d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
             />
           </svg>
@@ -45,7 +45,6 @@
           <br /><br />
           <textarea
             id="note-textfield"
-            name="field-for-notes"
             placeholder="Fange an, eine Notiz zu erstellen"
           ></textarea>
         </div>
@@ -93,14 +92,14 @@
           </button>
 
           <button
-            class="right-container-button orange-background"
-            onclick="addOrangeColor()"
+            class="right-container-button duty-background"
+            onclick="addDutyColor()"
           >
             Pflicht
           </button>
           <button
-            class="right-container-button blue-background"
-            onclick="addBlueColor()"
+            class="right-container-button leisure-background"
+            onclick="addLeisureColor()"
           >
             Freizeit
           </button>
