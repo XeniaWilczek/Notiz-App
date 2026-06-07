@@ -57,7 +57,7 @@ function saveNote() {
     }
   } else {
     const newNote = {
-      id: crypto.randomUUID(),
+      id: Math.random(),
       title,
       text,
       date: new Date().toLocaleDateString("de-DE"),
