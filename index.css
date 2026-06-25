@@ -65,6 +65,7 @@ button {
   stroke-width: 2;
 }
 
+/* Basis-Styling für note-card */
 .note-card {
   height: 160px;
   width: 100%;
@@ -74,16 +75,8 @@ button {
   box-shadow: 2px 2px 10px 0 rgba(0, 0, 0, 0.2);
   padding: 1rem;
   transition: all 0.2s;
-}
-
-.note-card:hover,
-.note-card:active {
-  cursor: pointer;
-  background-color: var(--card-hover);
-}
-
-.selected-note-card {
-  background-color: var(--primary-color-hover);
+  /* Platzhalter (wirdspäter überschrieben): damit Karte beim Zuweisen eines Rahmens nicht springt */
+  border: 3px solid transparent;
 }
 
 .note-title,
@@ -198,48 +191,103 @@ textarea:hover {
   width: 40px;
 }
 
-.leisure-background {
+/* allgemeine Hover-Effekte: niedrige Priorität */
+.note-card:hover,
+.note-card:active {
+  cursor: pointer;
+  background-color: var(--card-hover);
+}
+
+/* spezifische Hintergrundfarben: überschreiben Basis-Farbe */
+.note-card.leisure-background {
   background-color: #dff3e3;
+}
+.note-card.duty-background {
+  background-color: #f7dde2;
+}
+.note-card.white-background {
+  background-color: white;
+}
+
+.note-card.leisure-background *,
+.note-card.duty-background * {
   color: black;
 }
 
-.duty-background {
+/* Spezifische Hover-Effekte: kombinierte Klassen sind spezifischer als einfache Klassen */
+.note-card.leisure-background:hover {
+  background-color: #c8e8d0;
+}
+.note-card.duty-background:hover {
+  background-color: #f2c8d0;
+}
+.note-card.white-background:hover {
+  background-color: var(--card-hover);
+}
+
+/* Border für note-cards: bunter Rahmen überschreibt transparenten Rahmen */
+.note-card.green-border {
+  border-color: green;
+}
+.note-card.red-border {
+  border-color: red;
+}
+
+.note-card.selected-note-card {
+  background-color: var(--primary-color-hover);
+  outline: none;
+}
+.note-card.selected-note-card * {
+  color: white;
+}
+
+/* verhindert, dass die Auswahlfarbe die bunten Hintergründe überdeckt */
+.note-card.selected-note-card.leisure-background {
+  background-color: #dff3e3;
+}
+.note-card.selected-note-card.leisure-background * {
+  color: black;
+}
+
+.note-card.selected-note-card.duty-background {
+  background-color: #f7dde2;
+}
+.note-card.selected-note-card.duty-background * {
+  color: black;
+}
+
+.note-card.selected-note-card.white-background {
+  background-color: white;
+}
+.note-card.selected-note-card.white-background * {
+  color: black;
+}
+
+/* Buttons rechts */
+.right-container-button.leisure-background {
+  background-color: #dff3e3;
+  color: black;
+}
+.right-container-button.duty-background {
   background-color: #f7dde2;
   color: black;
 }
-.right-container-button.duty-background:hover {
-  background-color: #f2c8d0;
+.right-container-button.white-background {
+  background-color: white;
+  color: black;
+  border: 1px solid black;
 }
 
 .right-container-button.leisure-background:hover {
   background-color: #c8e8d0;
 }
+.right-container-button.duty-background:hover {
+  background-color: #f2c8d0;
+}
 .right-container-button.white-background:hover {
   background-color: var(--card-hover);
 }
-.green-border {
-  border: 2px solid green;
-}
 
-.red-border {
-  border: 2px solid red;
-}
-
-.note-card.leisure-background .note-title,
-.note-card.leisure-background .note-text,
-.note-card.leisure-background .note-date,
-.note-card.duty-background .note-title,
-.note-card.duty-background .note-text,
-.note-card.duty-background .note-date {
-  color: black;
-}
-.note-card.selected-note-card {
-  background-color: var(--primary-color-hover);
-}
-.white-background {
-  background-color: white;
-  color: black;
-}
 #white-button {
   height: 80px;
   padding: 0.5rem;
@@ -247,20 +295,16 @@ textarea:hover {
   grid-column: span 2;
   width: 100%;
 }
-
 #white-button:hover {
   cursor: pointer;
   background-color: var(--card-hover);
   color: black;
 }
-.note-card.leisure-background:hover {
-  background-color: #c8e8d0;
-}
 
-.note-card.duty-background:hover {
-  background-color: #f2c8d0;
+/* Border: ganz unten, damit sie Priorität erhalten */
+.green-border {
+  border: 2px solid green;
 }
-
-.note-card.white-background:hover {
-  background-color: var(--card-hover);
+.red-border {
+  border: 2px solid red;
 }
