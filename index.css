@@ -232,13 +232,8 @@ textarea:hover {
 .note-card.red-border {
   border-color: red;
 }
-
 .note-card.selected-note-card {
-  background-color: var(--primary-color-hover);
   outline: none;
-}
-.note-card.selected-note-card * {
-  color: white;
 }
 
 /* verhindert, dass die Auswahlfarbe die bunten Hintergründe überdeckt */
