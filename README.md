@@ -31,7 +31,7 @@ Eine moderne, digitale Variante eines klassischen Notizblocks. Diese Web-App bie
 
 ## Technische Highlights
 
-### Cross-Site-Scripting (XSS) Schutz
+### Schutz gegen Cross-Site-Scripting (XSS)
 Zur Absicherung gegen Schadcode-Injektionen besitzt das Projekt eine native `securityCheck()`-Sicherheitsfunktion. Alle vom Benutzer eingegebenen Zeichenketten durchlaufen vor dem Rendern im DOM eine HTML-Entity-Maskierung:
 * `&` wird zu `&amp;`
 * `<` wird zu `&lt;`
@@ -43,7 +43,7 @@ Für eine eindeutige Objekt-Identifizierung nutzt die App die moderne Web Crypto
 * Primär wird eine kryptografisch sichere **UUIDv4** via `crypto.randomUUID()` generiert.
 * Für ältere Browser oder restriktive lokale Umgebungen greift ein automatischer Zeitstempel-Fallback (`"note-" + Date.now()`) gegriffen.
 
-### Datenhaltung (Local Storage)
+### Speicherung von Daten (Local Storage)
 Sämtliche Notiz-Objekte werden als JSON-String im `localStorage` unter dem Schlüssel `storedNotes` persistiert. Dadurch bleibt der Bearbeitungsstand auch nach dem Schließen des Browser-Tabs oder dem Neuladen der Seite vollständig erhalten.
 
 ## Installation & Start
