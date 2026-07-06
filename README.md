@@ -4,7 +4,7 @@
 
 Eine moderne, digitale Variante eines klassischen Notizblocks. Diese Web-App bietet ein zweigeteiltes Interface, mit dem Notizen flexibel erstellt, editiert, farblich kategorisiert und nach Dringlichkeit priorisiert werden können. Dank lokaler Datenhaltung bleiben alle Einträge dauerhaft gespeichert.
 
-## 🚀 Funktionen
+## Funktionen
 
 * **Zweigeteiltes Layout:** Linke Seitenleiste (`20%` Breite) zur Auflistung und Auswahl der Notizen, rechter Hauptbereich (`80%` Breite) zur Inhaltspflege.
 * **Vollständige CRUD-Operationen:** 
@@ -29,24 +29,24 @@ Eine moderne, digitale Variante eines klassischen Notizblocks. Diese Web-App bie
   * Typografie über die Google Font **Inter**.
 * **JavaScript (Vanilla JS):** Event-gesteuerte DOM-Manipulation ohne externe Frameworks.
 
-## ⚙️ Technische Highlights
+## Technische Highlights
 
-### 🔒 Cross-Site-Scripting (XSS) Schutz
+### Cross-Site-Scripting (XSS) Schutz
 Zur Absicherung gegen Schadcode-Injektionen besitzt das Projekt eine native `securityCheck()`-Sicherheitsfunktion. Alle vom Benutzer eingegebenen Zeichenketten durchlaufen vor dem Rendern im DOM eine HTML-Entity-Maskierung:
 * `&` wird zu `&amp;`
 * `<` wird zu `&lt;`
 * `>` wird zu `&gt;`
 * `"` wird zu `&quot;`
 
-### 🔑 ID-Generierung & UUID
+### ID-Generierung & UUID
 Für eine eindeutige Objekt-Identifizierung nutzt die App die moderne Web Crypto API:
 * Primär wird eine kryptografisch sichere **UUIDv4** via `crypto.randomUUID()` generiert.
 * Für ältere Browser oder restriktive lokale Umgebungen greift ein automatischer Zeitstempel-Fallback (`"note-" + Date.now()`) gegriffen.
 
-### 💾 Datenhaltung (Local Storage)
+### Datenhaltung (Local Storage)
 Sämtliche Notiz-Objekte werden als JSON-String im `localStorage` unter dem Schlüssel `storedNotes` persistiert. Dadurch bleibt der Bearbeitungsstand auch nach dem Schließen des Browser-Tabs oder dem Neuladen der Seite vollständig erhalten.
 
-## 📦 Installation & Start
+## Installation & Start
 
 1. Klone das Repository auf deinen lokalen Computer:
    ```bash
