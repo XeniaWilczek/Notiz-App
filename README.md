@@ -19,7 +19,7 @@ Eine moderne, digitale Variante eines klassischen Notizblocks. Diese Web-App bie
   * **Hintergrund entfernen:** Setzt die Karte auf das neutrale Standard-Design zurück.
 * **Zustands-Synchronisation:** Stil-Änderungen (Farbe/Rahmen) werden bei einer bereits ausgewählten Notiz sofort im Speicher aktualisiert und visuell neu gerendert.
 
-## 🛠️ Technologien
+## Technologien
 
 * **HTML5:** Semantischer Aufbau der Benutzeroberfläche unter Verwendung nativer SVG-Vektorgrafiken für moderne, skalierbare Icons.
 * **CSS3 (Flexbox & Grid):** 
