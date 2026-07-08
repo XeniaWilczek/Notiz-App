@@ -2,7 +2,7 @@
 
 ![Projekt-Vorschau](images/previewNotizApp.png)
 
-Eine responsive, webbasierte Anwendung zur digitalen Verwaltung eines klassischen Notizblocks. Die App bietet ein zweigeteiltes Interface, mit dem Notizen flexibel erstellt, editiert, farblich kategorisiert und nach Dringlichkeit priorisiert werden können. Dank lokaler Datenhaltung bleiben alle Einträge dauerhaft gespeichert.
+Eine responsive Webapplikation zur digitalen Verwaltung eines klassischen Notizblocks. Die App bietet ein zweigeteiltes Interface, mit dem Notizen flexibel erstellt, editiert, farblich kategorisiert und nach Dringlichkeit priorisiert werden können. Die Daten werden persistent im Local Storage gespeichert.
 
 ## Voraussetzungen
 Es wird keine spezielle Laufzeitumgebung oder Serversoftware benötigt. Sie benötigen lediglich:
@@ -35,9 +35,6 @@ Die Website kann direkt über GitHub Pages gehostet werden:
 2. Klicken Sie im linken Menü auf Pages.
 3. Wählen Sie unter Build and deployment den `main` (oder `master`) Branch aus und klicken Sie auf Save.
 4. Nach wenigen Minuten ist die Website live unter Ihrer GitHub-Pages-URL erreichbar.
-
-## Mitwirken
-Da dies ein persönliches Projekt oder Portfolio-Projekt ist, werden aktuell keine Pull Requests oder externen Code-Beiträge entgegengenommen. Feedback oder Fragen können Sie mir jedoch gerne per E-Mail senden.
 
 ## Lizenz
 Dieses Projekt wurde von Xenia Wilczek erstellt. Alle Rechte an Code und Design vorbehalten (All Rights Reserved).
