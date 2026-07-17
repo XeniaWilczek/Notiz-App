@@ -23,10 +23,10 @@ function renderNotes() {
     .sort((a, b) => {
       const isASelected = String(a.id) === String(savedId);
       const isBSelected = String(b.id) === String(savedId);
-
+      //Reihenfolge bestimmen: Wenn a ausgewählt ist und b nicht, kommt a zuerst. Wenn b ausgewählt ist und a nicht, kommt b zuerst. Wenn beide gleich sind (beide ausgewählt oder beide nicht ausgewählt), wird nach Datum sortiert.
       if (isASelected && !isBSelected) return -1;
       if (!isASelected && isBSelected) return 1;
-
+      //Wenn keine Notiz ausgewählt ist: Erstellungsdatum vergleichen: neueste Notiz zuerst anzeigen
       const partsA = a.date.split(".");
       const partsB = b.date.split(".");
       const dateA = new Date(partsA[2], partsA[1] - 1, partsA[0]);
@@ -44,11 +44,12 @@ function renderNotes() {
 
 function displayNote(note) {
   const container = document.getElementById("note-container");
-  const bgClass = note.backgroundColor || "";
+  //Jede Notiz hat Eigenschaften backgroundClass und borderClass, die entweder den einen Wert haben oder leer sind, damit die Klasse nicht "undefined" ist
+  const backgroundClass = note.backgroundColor || "";
   const borderClass = note.border || "";
 
   const htmlString = `
-    <div class="note-card ${bgClass} ${borderClass}" id="${note.id}" onclick="displaySelectedNote('${note.id}')">
+    <div class="note-card ${backgroundClass} ${borderClass}" id="${note.id}" onclick="displaySelectedNote('${note.id}')">
       <h3 class="note-title">${securityCheck(note.title)}</h3>
       <p class="note-text">${securityCheck(note.text)}</p>
       <p class="note-date">${note.date}</p>
@@ -114,7 +115,7 @@ function displaySelectedNote(id) {
   } else {
     return;
   }
-  //Attribute haben den Wert, der beim angewählten Element erscheint oder sind leer (es darf nicht undefined sein)
+  //Attribute haben den Wert, der beim angewählten Element erscheint oder sind leer (dürfen nicht "undefined" sein)
   backgroundColor = selectedNote.backgroundColor || "";
   border = selectedNote.border || "";
 
@@ -122,18 +123,17 @@ function displaySelectedNote(id) {
   renderNotes();
 
   //delete-button über dessen id finden
-  const deleteBtn = document.getElementById("delete-button");
-  if (deleteBtn) {
-    deleteBtn.onclick = function () {
+  const deleteButton = document.getElementById("delete-button");
+  if (deleteButton) {
+    deleteButton.onclick = function () {
       deleteNote(savedId);
     };
   }
-  //Klasse wird verliehen, wenn beide Eigenschaften einen Wert haben
 }
 
 function refreshTextFields() {
   const inputContent = document.getElementById("note-heading");
-  //Kein Leerzeichen zwischen Anführungszeichen: Placeholder soll angezeigt werden
+  //Kein Leerzeichen zwischen Anführungszeichen: Placeholder soll angezeigt werden (Leerzeichen als Eingabewert ist auch ein Zeichen)
   const textfieldContent = document.getElementById("note-textfield");
 
   if (inputContent) inputContent.value = "";
@@ -153,7 +153,7 @@ function refreshTextFields() {
 //Funktion: Notiz aus Array storedNotes löschen und aktualisiertes Array im Local Storage speichern
 function deleteNote(id) {
   if (!id) return;
-  //delete-button hat id des aktuellen Notiz-Objekts bekommen, also kann man mit id arbeiten
+  //id des aktuellen Notiz-Objekts wird gesetzt: anhand der id die Note-Card erkennen
   //Es werden Elemente herausgefiltert, die nicht die id des ausgewählten Elements haben
   storedNotes = storedNotes.filter((note) => String(note.id) !== String(id));
   //Neues Array mit gefilterten Notiz-Objekten abspeichern im Local Storage
@@ -174,8 +174,8 @@ function securityCheck(text) {
     .replace(/"/g, "&quot;");
 }
 
-//Funktion zum Hinzufügen von Styles
-function syncStyles() {
+//eine Funktion zum Hinzufügen aller Farb-Styles
+function addColorStyles() {
   if (savedId !== null) {
     const existingNote = storedNotes.find(
       (note) => String(note.id) === String(savedId),
@@ -191,25 +191,25 @@ function syncStyles() {
 
 function addLeisureColor() {
   backgroundColor = "leisure-background";
-  syncStyles();
+  addColorStyles();
 }
 
 function addDutyColor() {
   backgroundColor = "duty-background";
-  syncStyles();
+  addColorStyles();
 }
 
 function addWhiteBackground() {
   backgroundColor = "white-background";
-  syncStyles();
+  addColorStyles();
 }
 
 function addGreenBorder() {
   border = "green-border";
-  syncStyles();
+  addColorStyles();
 }
 
 function addRedBorder() {
   border = "red-border";
-  syncStyles();
+  addColorStyles();
 }
